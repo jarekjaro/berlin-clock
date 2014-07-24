@@ -6,7 +6,7 @@ Meta:
 Narrative:
     As a clock enthusiast
     I want to tell the time using the Berlin Clock
-    So that I can increase then number of ways that I can read the time
+    So that I can increase the number of ways that I can read the time
 
 Scenario: Midnight
 When the time is 00:00:00
