@@ -15,16 +15,14 @@ import org.slf4j.LoggerFactory;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.jbehave.core.io.CodeLocations.codeLocationFromClass;
 import static org.jbehave.core.reporters.Format.CONSOLE;
 import static org.jbehave.core.reporters.Format.HTML;
-import static org.junit.Assert.assertThat;
 
 /**
  * A class to fully encapsulates all of the JBehave plumbing behind a builder style API.  The expected use for this would be:
  * {code}aBehaviouralTestRunner().usingStepsFrom(this).withStory("your.story").run(){code}
- *
  */
 public final class BehaviouralTestEmbedder extends ConfigurableEmbedder {
 
@@ -54,7 +52,7 @@ public final class BehaviouralTestEmbedder extends ConfigurableEmbedder {
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        assertThat(stepsFactory, is(notNullValue()));
+        assertThat(stepsFactory).isNotNull();
         return stepsFactory;
     }
 
@@ -75,7 +73,7 @@ public final class BehaviouralTestEmbedder extends ConfigurableEmbedder {
     }
 
     public BehaviouralTestEmbedder usingStepsFrom(Object... stepsSource) {
-        assertThat(BAD_USE_OF_API_MESSAGE, stepsFactory, is(nullValue()));
+        assertThat(stepsFactory).isNull();
         stepsFactory = new InstanceStepsFactory(configuration(), stepsSource);
         return this;
     }
