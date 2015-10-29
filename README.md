@@ -16,7 +16,7 @@ One can be seen [here](http://uniqueclocks.co.uk/media/berlin~clock.jpg~1.gif)
 
 ## The brief
 
-We have created a number of acceptance tests for the Berlin Clock and your challenge is to get them passing. Additionally, please make sure your solution is accompanied by comments in any form that describe a step-by-step refactorings, so we can understand the way you were thinking.
+We have created a number of acceptance tests for the Berlin Clock and your challenge is to get them passing. Additionally, please make sure your solution is accompanied by comments in git commit messages that describe a step-by-step refactorings, so we can understand the way you were thinking.
 
 ## Some hints
 If you are new to Gradle, it may be worth spending 10 minutes reading a high level summary.  We are using the Gradle
@@ -24,4 +24,4 @@ Wrapper so `gradlew` from the command line should download everything you need. 
 
 The use of JBehave in this instance is to provide you with our definition of done for the task.
 
-Please ensure that you are familiar with our values in the instructions project.  They are important to us.
+Please ensure that you are familiar with our values in the instructions project (available in a separate file you are given). They are important to us!
