@@ -4,7 +4,8 @@ public class BerlinClock implements TimeConverter {
     public static void main(String[] args) {
         TimeConverter berlinClock = new BerlinClock();
         System.out.println(berlinClock.convertTime("12:34:54"));
-        System.out.println(berlinClock.convertTime("00:47:00"));
+        System.out.println(berlinClock.convertTime("00:45:01"));
+
 
     }
 
@@ -20,7 +21,7 @@ public class BerlinClock implements TimeConverter {
     }
 
     private String getBerlinTimeRepresentation(Integer hours, Integer minutes, Integer seconds) {
-        return getTopLampStateBasedOnSeconds(seconds) + "\n" +
+        return getTopLampRepresentation(seconds) + "\n" +
                 getTopHoursRepresentation(hours) + "\n" +
                 getBottomHoursRepresentation(hours) + "\n" +
                 getTopMinutesRepresentation(minutes) + "\n" +
@@ -28,74 +29,63 @@ public class BerlinClock implements TimeConverter {
     }
 
     private String getTopHoursRepresentation(Integer hours) {
-        Double hoursDivByFive = hours / 5.0d;
-        if (hoursDivByFive >= 4) {
-            return "RRRR";
-        } else if (hoursDivByFive >= 3) {
-            return "RRRO";
-        } else if (hoursDivByFive >= 2) {
-            return "RROO";
-        } else if (hoursDivByFive >= 1) {
-            return "ROOO";
-        } else return "OOOO";
+        return getLampRepresentationForRow((hours - (hours % 5)) / 5, BerlinClockRow.TOP_HOURS);
     }
 
     private String getBottomHoursRepresentation(Integer hours) {
         Integer hoursModFive = hours % 5;
-        if (hoursModFive > 3) {
-            return "RRRR";
-        } else if (hoursModFive > 2) {
-            return "RRRO";
-        } else if (hoursModFive > 1) {
-            return "RROO";
-        } else if (hoursModFive > 0) {
-            return "ROOO";
-        } else return "OOOO";
+        return getLampRepresentationForRow(hoursModFive, BerlinClockRow.BOTTOM_HOURS);
     }
 
     private String getTopMinutesRepresentation(Integer minutes) {
-        Double minutesDivByFive = minutes / 5.0d;
-        if (minutesDivByFive >= 11) {
-            return "YYRYYRYYRYY";
-        } else if (minutesDivByFive >=10) {
-            return "YYRYYRYYRYO";
-        } else if (minutesDivByFive >= 9) {
-            return "YYRYYRYYROO";
-        } else if (minutesDivByFive >= 8) {
-            return "YYRYYRYYOOO";
-        } else if (minutesDivByFive >= 7) {
-            return "YYRYYRYOOOO";
-        } else if (minutesDivByFive >= 6) {
-            return "YYRYYROOOOO";
-        } else if (minutesDivByFive >= 5) {
-            return "YYRYYOOOOOO";
-        } else if (minutesDivByFive >= 4) {
-            return "YYRYOOOOOOO";
-        } else if (minutesDivByFive >= 3) {
-            return "YYROOOOOOOO";
-        } else if (minutesDivByFive >= 2) {
-            return "YYOOOOOOOOO";
-        } else if (minutesDivByFive >= 1) {
-            return "YOOOOOOOOOO";
-        } else return "OOOOOOOOOOO";
+        return getLampRepresentationForRow((minutes - (minutes % 5)) / 5, BerlinClockRow.TOP_MINUTES);
     }
 
     private String getBottomMinutesRepresentation(Integer minutes) {
-        Integer hoursModFive = minutes % 5;
-        if (hoursModFive > 3) {
-            return "YYYY";
-        } else if (hoursModFive > 2) {
-            return "YYYO";
-        } else if (hoursModFive > 1) {
-            return "YYOO";
-        } else if (hoursModFive > 0) {
-            return "YOOO";
-        } else return "OOOO";
+        Integer minutesModFive = minutes % 5;
+        return getLampRepresentationForRow(minutesModFive, BerlinClockRow.BOTTOM_MINUTES);
     }
 
-    private String getTopLampStateBasedOnSeconds(Integer seconds) {
-        if (seconds % 2 > 0) {
-            return "O";
-        } else return "Y";
+    private String getTopLampRepresentation(Integer seconds) {
+        return getLampRepresentationForRow(seconds%2, BerlinClockRow.TOP_LAMP);
     }
+
+    private String getLampRepresentationForRow(Integer howManyOn, BerlinClockRow whichBerlinClockRow) {
+        String out = "";
+        switch (whichBerlinClockRow) {
+            case BOTTOM_HOURS:
+            case TOP_HOURS: {
+                for (int i = 0; i < howManyOn; i++) {
+                    out += "R";
+                }
+                for (int i = 0; i < 4 - howManyOn; i++) {
+                    out += "O";
+                }
+                return out;
+            }
+            case TOP_LAMP: {
+                if (howManyOn ==0) return "Y"; else return "O";
+            }
+            case BOTTOM_MINUTES: {
+                for (int i = 0; i < howManyOn; i++) {
+                    out += "Y";
+                }
+                for (int i = 0; i < 4 - howManyOn; i++) {
+                    out += "O";
+                }
+                return out;
+            }
+            case TOP_MINUTES: {
+                for (int i = 0; i < howManyOn; i++) {
+                    out += "Y";
+                }
+                for (int i = 0; i < 11 - howManyOn; i++) {
+                    out += "O";
+                }
+                return out.replaceAll("YYY", "YYR");
+            }
+        }
+        return null;
+    }
+
 }
