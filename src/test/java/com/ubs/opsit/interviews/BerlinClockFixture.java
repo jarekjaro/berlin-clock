@@ -8,12 +8,13 @@ import static com.ubs.opsit.interviews.support.BehaviouralTestEmbedder.aBehaviou
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Acceptance test class that uses the JBehave (Gerkin) syntax for writing stories.  
+ * Acceptance test class that uses the JBehave (Gerkin) syntax for writing stories.
  * You will notice the TimeConverter has no implementation ... (hint)
  */
 public class BerlinClockFixture {
 
-    private TimeConverter berlinClock;
+    private TimeConverter berlinClock = new BerlinClock();
+
     private String theTime;
 
     @Test
