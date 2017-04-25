@@ -5,16 +5,36 @@ import java.util.stream.Stream;
 public class BerlinClock implements TimeConverter {
 
     @Override
-    public String convertTime(String aTime) {
+    public String convertTime(String aTime) throws IllegalArgumentException {
+        validateInputString(aTime);
         int[] splitTime = Stream.of(aTime.split(":")).mapToInt(Integer::parseInt).toArray();
         return getBerlinTimeRepresentation(splitTime[0], splitTime[1], splitTime[2]);
     }
 
+    private void validateInputString(String aTime) throws IllegalArgumentException {
+        if (aTime == null) {
+            throw new IllegalArgumentException("Given time should not be null!");
+        }
+        if (aTime.equals("")) {
+            throw new IllegalArgumentException("Given time is empty!");
+        }
+        String regex = "([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]";
+        if (!aTime.matches(regex)) {
+            String regex24 = "(24:00:00)";
+            if (aTime.matches(regex24)) {
+                return;
+            }
+            throw new IllegalArgumentException("Given time is in a wrong format. Should look like XX:XX:XX" +
+                    " and match 24h clock rules.");
+        }
+    }
+
     private String getBerlinTimeRepresentation(Integer hours, Integer minutes, Integer seconds) {
-        return getTopLampRepresentation(seconds) + "\n" +
-                getTopHoursRepresentation(hours) + "\n" +
-                getBottomHoursRepresentation(hours) + "\n" +
-                getTopMinutesRepresentation(minutes) + "\n" +
+        String lineSeparator = System.lineSeparator();
+        return getTopLampRepresentation(seconds) + lineSeparator +
+                getTopHoursRepresentation(hours) + lineSeparator +
+                getBottomHoursRepresentation(hours) + lineSeparator +
+                getTopMinutesRepresentation(minutes) + lineSeparator +
                 getBottomMinutesRepresentation(minutes);
     }
 
@@ -37,7 +57,7 @@ public class BerlinClock implements TimeConverter {
     }
 
     private String getTopLampRepresentation(Integer seconds) {
-        return getLampRepresentationForRow(seconds%2, BerlinClockRow.TOP_LAMP);
+        return getLampRepresentationForRow(seconds % 2, BerlinClockRow.TOP_LAMP);
     }
 
     private int getHowManyOnForLampsOfValueFive(Integer hours) {
@@ -58,7 +78,8 @@ public class BerlinClock implements TimeConverter {
                 return out;
             }
             case TOP_LAMP: {
-                if (howManyOn ==0) return "Y"; else return "O";
+                if (howManyOn == 0) return "Y";
+                else return "O";
             }
             case BOTTOM_MINUTES: {
                 for (int i = 0; i < howManyOn; i++) {
