@@ -9,10 +9,12 @@ import static org.junit.Assert.fail;
 public class BerlinClockUnitTests {
 
     static TimeConverter berlinClock;
+    static String ls;
 
     @BeforeClass
     public static void initialize() {
         berlinClock = new BerlinClock();
+        ls = System.lineSeparator();
     }
 
     @Test
@@ -48,19 +50,19 @@ public class BerlinClockUnitTests {
 
     @Test
     public void shouldConvertTimeReturnCorrectValuesForCorrectInputTime() {
-        assertThat(berlinClock.convertTime("12:34:56")).isEqualTo("Y" + System.lineSeparator() +
-                "RROO" + System.lineSeparator() +
-                "RROO" + System.lineSeparator() +
-                "YYRYYROOOOO" + System.lineSeparator() +
+        assertThat(berlinClock.convertTime("12:34:56")).isEqualTo("Y" + ls +
+                "RROO" + ls +
+                "RROO" + ls +
+                "YYRYYROOOOO" + ls +
                 "YYYY");
     }
 
     @Test
     public void shouldConvertTimeHandle_24_00_00() {
-        assertThat(berlinClock.convertTime("24:00:00")).isEqualTo("Y" + System.lineSeparator() +
-                "RRRR" + System.lineSeparator() +
-                "RRRR" + System.lineSeparator() +
-                "OOOOOOOOOOO" + System.lineSeparator() +
+        assertThat(berlinClock.convertTime("24:00:00")).isEqualTo("Y" + ls +
+                "RRRR" + ls +
+                "RRRR" + ls +
+                "OOOOOOOOOOO" + ls +
                 "OOOO");
     }
 
