@@ -30,11 +30,11 @@ public class BerlinClock implements TimeConverter {
     }
 
     private String getBerlinTimeRepresentation(Integer hours, Integer minutes, Integer seconds) {
-        String lineSeparator = System.lineSeparator();
-        return getTopLampRepresentation(seconds) + lineSeparator +
-                getTopHoursRepresentation(hours) + lineSeparator +
-                getBottomHoursRepresentation(hours) + lineSeparator +
-                getTopMinutesRepresentation(minutes) + lineSeparator +
+        String ls = System.lineSeparator();
+        return getTopLampRepresentation(seconds) + ls +
+                getTopHoursRepresentation(hours) + ls +
+                getBottomHoursRepresentation(hours) + ls +
+                getTopMinutesRepresentation(minutes) + ls +
                 getBottomMinutesRepresentation(minutes);
     }
 
